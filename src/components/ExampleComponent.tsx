@@ -1,31 +1,26 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useEvent, useSubscribe } from '../hooks'
 
 export const ExampleComponent: FC = () => {
   const { emitEvent } = useEvent()
 
-  // test late event subscription
-  useSubscribe('my-event', (payload: any) => {
-    console.log('Received event:', payload)
+  useSubscribe('my-event', payload => {
+    console.log('[Subscriber] my-event received:', payload)
   })
 
-  const emitButtonEvent = () => {
-    emitEvent('my-event', { message: 'Hello, EventBus!', timeStamp: new Date().toTimeString() })
+  useSubscribe('global-event', payload => {
+    console.log('[Subscriber] global-event received:', payload)
+  })
+
+  const emitButtonEvent = (eventName = '') => {
+    if (!eventName) return
+    emitEvent(eventName, { message: 'Hello, EventBus!' })
   }
-
-  useEffect(() => {
-    // Emit an event before subscribing
-    emitEvent('my-event', { message: 'Hello from EventBus!', timeStamp: new Date().toTimeString() })
-
-    // Emit another event after subscribing
-    setTimeout(() => {
-      emitEvent('my-event', { message: 'Another event after subscribing!', timeStamp: new Date().toTimeString() })
-    }, 2000)
-  }, [emitEvent])
 
   return (
     <div>
-      <button onClick={emitButtonEvent}>Emit Event</button>
+      <button onClick={() => emitButtonEvent('my-event')}>Emit Event</button>
+      <button onClick={() => emitButtonEvent('global-event')}>Global Event</button>
     </div>
   )
 }

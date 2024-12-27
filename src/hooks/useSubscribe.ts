@@ -1,12 +1,14 @@
 import { useContext, useEffect } from 'react'
 import { EventContext } from '../context'
+import { Events } from '../types'
 
 /**
  * useSubscribe hook to listen for specific events.
  * @param eventName The name of the event to subscribe to.
  * @param callback The callback function to handle the event.
  */
-export function useSubscribe(eventName: string, callback: (payload?: any) => void): void {
+
+export function useSubscribe<E extends keyof Events>(eventName: E, callback: (payload: Events[E]) => void): void {
   const eventBus = useContext(EventContext)
 
   if (!eventBus) {
