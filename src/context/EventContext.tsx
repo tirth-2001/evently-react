@@ -1,32 +1,27 @@
 import React, { createContext, ReactNode, useMemo } from 'react'
 import { EventBus } from '../core'
+import { CacheEnabled, CacheTTL } from '../constants'
+
+const defaultConfig = {
+  cacheTTL: CacheTTL,
+  cacheEnabled: CacheEnabled,
+}
 
 export const EventContext = createContext<EventBus | null>(null)
 
 interface EventProviderProps {
   children: ReactNode
+  cacheTTL?: number
+  cacheEnabled?: boolean
 }
 
-export const EventProvider: React.FC<EventProviderProps> = ({ children }) => {
+export const EventProvider: React.FC<EventProviderProps> = ({
+  children,
+  cacheTTL = defaultConfig.cacheTTL,
+  cacheEnabled = defaultConfig.cacheEnabled,
+}) => {
   // Memoize the EventBus instance to ensure a single instance
-  const eventBus = useMemo(() => new EventBus(), [])
-
-  // Register a global middleware
-  eventBus.use((event, payload) => {
-    console.log(`[Global Middleware] Event: ${event}, Payload:`, payload)
-    return { ...payload, processed: true }
-  })
-
-  eventBus.use((event, payload) => {
-    console.log(`[Global Middleware] Event: ${event}, Payload:`, payload)
-    return { ...payload, emitTimestamp: new Date().toTimeString() }
-  })
-
-  // Register an event-specific middleware
-  eventBus.useForEvent('my-event', (event, payload) => {
-    console.log(`[Event-Specific Middleware] Event: ${event}, Payload:`, payload)
-    return { ...payload, extraInfo: 'event-specific processing' }
-  })
+  const eventBus = useMemo(() => new EventBus({ cacheEnabled, cacheTTL }), [cacheEnabled, cacheTTL])
 
   return <EventContext.Provider value={eventBus}>{children}</EventContext.Provider>
 }

@@ -1,3 +1,4 @@
+import { CacheEnabled, CacheTTL } from '../constants'
 import { Events } from '../types'
 import { Logger } from '../utils'
 
@@ -14,21 +15,31 @@ interface Subscriber<E extends keyof Events> {
   priority: number
 }
 
+interface EventBusOptions {
+  cacheTTL?: number // Time-to-live in milliseconds
+  cacheEnabled?: boolean
+  logger?: typeof Logger // Optional custom logger
+}
+
 export class EventBus {
   private events: Map<keyof Events, Subscriber<any>[]>
   private globalMiddlewares: Middleware<any>[]
   private eventSpecificMiddlewares: Map<keyof Events, Middleware<any>[]>
   private cache: Map<keyof Events, CachedEvent>
-  private cacheTTL: number // Time-to-live in milliseconds
+  private cacheTTL: number
   private cacheEnabled: boolean
+  private logger: typeof Logger
 
-  constructor(cacheTTL: number = 60000, cacheEnabled: boolean = true) {
+  constructor(options: EventBusOptions = {}) {
     this.events = new Map()
     this.globalMiddlewares = []
     this.eventSpecificMiddlewares = new Map<keyof Events, Middleware<any>[]>()
     this.cache = new Map()
-    this.cacheTTL = cacheTTL
-    this.cacheEnabled = cacheEnabled
+
+    // Apply options or defaults
+    this.cacheTTL = options.cacheTTL || CacheTTL
+    this.cacheEnabled = options.cacheEnabled !== undefined ? options.cacheEnabled : CacheEnabled
+    this.logger = options.logger || Logger
   }
 
   // Emit an event
@@ -61,23 +72,23 @@ export class EventBus {
           try {
             subscriber.callback(processedPayload)
           } catch (callbackError) {
-            Logger.error(`Error in callback for event "${event}":`, callbackError)
+            this.logger.error(`Error in callback for event "${event}":`, callbackError)
           }
         })
     } catch (emitError) {
-      Logger.error(`Error emitting event "${event}":`, emitError)
+      this.logger.error(`Error emitting event "${event}":`, emitError)
     }
   }
 
   // Subscribe to an event with priority
   subscribe<E extends keyof Events>(event: E, callback: EventCallback<E>, priority: number = 0): () => void {
     if (!event || typeof event !== 'string') {
-      Logger.error(`Invalid event name: "${event}"`)
+      this.logger.error(`Invalid event name: "${event}"`)
       throw new Error(`Invalid event name: "${event}"`)
     }
 
     if (typeof callback !== 'function') {
-      Logger.error(`Invalid callback for event "${event}". Must be a function.`)
+      this.logger.error(`Invalid callback for event "${event}". Must be a function.`)
       throw new Error(`Invalid callback for event "${event}".`)
     }
 
@@ -101,7 +112,7 @@ export class EventBus {
         this.unsubscribe(event, callback)
       }
     } catch (subscribeError) {
-      Logger.error(`Error subscribing to event "${event}":`, subscribeError)
+      this.logger.error(`Error subscribing to event "${event}":`, subscribeError)
       throw subscribeError
     }
   }
@@ -115,7 +126,7 @@ export class EventBus {
         subscribers.filter(subscriber => subscriber.callback !== callback),
       )
     } catch (unsubscribeError) {
-      Logger.error(`Error unsubscribing from event "${event}":`, unsubscribeError)
+      this.logger.error(`Error unsubscribing from event "${event}":`, unsubscribeError)
     }
   }
 
@@ -124,7 +135,7 @@ export class EventBus {
     try {
       this.globalMiddlewares.push(middleware)
     } catch (middlewareError) {
-      Logger.error(`Error registering global middleware:`, middlewareError)
+      this.logger.error(`Error registering global middleware:`, middlewareError)
     }
   }
 
@@ -136,7 +147,7 @@ export class EventBus {
       }
       this.eventSpecificMiddlewares.get(event)?.push(middleware)
     } catch (middlewareError) {
-      Logger.error(`Error registering middleware for event "${event}":`, middlewareError)
+      this.logger.error(`Error registering middleware for event "${event}":`, middlewareError)
     }
   }
 }
