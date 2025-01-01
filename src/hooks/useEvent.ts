@@ -2,6 +2,7 @@ import { useContext } from 'react'
 import { EventContext } from '../context'
 import { Events } from '../types'
 import { Logger } from '../utils'
+import { EventBus } from '../core'
 
 interface EventHook {
   emitEvent: <E extends keyof Events>(eventName: E, payload: Events[E]) => void
@@ -10,6 +11,7 @@ interface EventHook {
     callback: (payload: Events[E]) => void,
     priority?: number,
   ) => () => void
+  eventBus: EventBus
 }
 
 /**
@@ -25,6 +27,8 @@ interface EventHook {
  * @param callback The callback function to handle the event.
  * @param priority The priority of the subscription.
  * @returns A function to unsubscribe from the event.
+ *
+ * `eventBus` - The full EventBus instance for advanced use cases (e.g., middleware).
  */
 export const useEvent = (): EventHook => {
   const context = useContext(EventContext)
@@ -50,5 +54,6 @@ export const useEvent = (): EventHook => {
         throw error
       }
     },
+    eventBus: context,
   }
 }
