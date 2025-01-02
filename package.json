@@ -20,6 +20,23 @@
     "build",
     "README.md"
   ],
+  "keywords": [
+    "react-event",
+    "useEvent",
+    "event-management",
+    "event",
+    "event-bus",
+    "pub-sub",
+    "hooks",
+    "middleware",
+    "state-management",
+    "react-hooks",
+    "event-driven-architecture",
+    "typescript",
+    "in-memory-cache",
+    "scalable",
+    "react"
+  ],
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
