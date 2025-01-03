@@ -6,6 +6,8 @@
 
 ![npm](https://img.shields.io/npm/v/@evently/react?style=flat-square) ![typescript](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square)
 
+![Banner](.github/media/title_banner.png)
+
 ## 🎉 Overview
 
 `@evently/react` simplifies event management for React developers. 🚀
