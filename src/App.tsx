@@ -1,7 +1,6 @@
-import { ExampleComponent } from './components'
-
 function App() {
-  return <ExampleComponent />
+  // return <ExampleComponent />
+  return null
 }
 
 export default App
