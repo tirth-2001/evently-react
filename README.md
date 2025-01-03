@@ -206,3 +206,11 @@ useSubscribe('exampleEvent', payload => {
 - Yes, simply call `useSubscribe` multiple times with different event names.
 
 ---
+
+## 🛠️ Support & Suggestion
+
+Having issues or have a suggestion?
+
+- 🐛 [Report a Bug](https://github.com/tirth-2001/evently-react/issues/new?template=bug_report.md)
+- 💡 [Request a Feature](https://github.com/tirth-2001/evently-react/issues/new?template=feature_request.md)
+- 📚 [Join the Discussion](https://github.com/tirth-2001/evently-react/discussions)
