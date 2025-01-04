@@ -1,13 +1,12 @@
-import React, { createContext, ReactNode, useMemo } from 'react'
+import React, { ReactNode, useMemo } from 'react'
 import { EventBus } from '../core'
 import { CacheEnabled, CacheTTL } from '../constants'
+import { EventContext } from './EventContext'
 
 const defaultConfig = {
   cacheTTL: CacheTTL,
   cacheEnabled: CacheEnabled,
 }
-
-export const EventContext = createContext<EventBus | null>(null)
 
 interface EventProviderProps {
   children: ReactNode
