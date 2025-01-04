@@ -1,20 +1,20 @@
 <div align="center">
 
-# @evently/react
+# evently-react
 
 </div>
 
-![npm](https://img.shields.io/npm/v/@evently/react?style=flat-square) ![typescript](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square)
+![npm](https://img.shields.io/npm/v/evently-react?style=flat-square) ![typescript](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square)
 
 ![Banner](.github/media/title_banner.png)
 
 ## 🎉 Overview
 
-`@evently/react` simplifies event management for React developers. 🚀
+`evently-react` simplifies event management for React developers. 🚀
 
 Whether you're building a small app or a large-scale application, this package offers a clean and simplified design to manage robust and scalable event-driven architectures.
 
-With its **hooks-based API**, `@evently/react` enables seamless event handling while keeping your codebase clean and maintainable.
+With its **hooks-based API**, `evently-react` enables seamless event handling while keeping your codebase clean and maintainable.
 
 Say goodbye to prop drilling and global state chaos and hello to elegant, event-driven designs! 🎯
 
@@ -37,18 +37,18 @@ Say goodbye to prop drilling and global state chaos and hello to elegant, event-
 Install the package using npm or yarn:
 
 ```bash
-npm install @evently/react
+npm install evently-react
 # OR
-yarn add @evently/react
+yarn add evently-react
 ```
 
 ### 2️⃣ Quickstart Example
 
-Below is a quick example to get started with `@evently/react`.
+Below is a quick example to get started with `evently-react`.
 
 ```tsx
 import React from 'react'
-import { EventProvider, useEvent, useSubscribe } from '@evently/react'
+import { EventProvider, useEvent, useSubscribe } from 'evently-react'
 
 // Define a publisher component
 const Publisher: React.FC = () => {
@@ -91,7 +91,7 @@ Use the `useEvent` hook to emit events:
 
 ```tsx
 import React from 'react'
-import { useEvent } from '@evently/react'
+import { useEvent } from 'evently-react'
 
 const EmitExample: React.FC = () => {
   const { emitEvent } = useEvent()
@@ -112,7 +112,7 @@ Use the `useSubscribe` hook to listen to events:
 
 ```tsx
 import React from 'react'
-import { useSubscribe } from '@evently/react'
+import { useSubscribe } from 'evently-react'
 
 const SubscribeExample: React.FC = () => {
   useSubscribe('exampleEvent', payload => {
@@ -138,7 +138,7 @@ There are 2 types of middlewares supported: Global and Event-specific.
 #### Global Middleware: `.use()`
 
 ```tsx
-import { useEvent } from '@evently/react'
+import { useEvent } from 'evently-react'
 
 const App = () => {
   const { eventBus } = useEvent()
@@ -178,20 +178,20 @@ useSubscribe('exampleEvent', payload => {
 - 🎯 Use meaningful event names to keep your event flow intuitive.
 - 💾 Middleware can be a powerful way to enforce validation or transformations across events.
 - ⚙️ Use in-memory caching to ensure real-time updates for dynamic UIs.
-- 🧩 Combine `@evently/react` with React context or Redux for hybrid state/event management solutions.
+- 🧩 Combine `evently-react` with React context or Redux for hybrid state/event management solutions.
 - 📦 Explore lazy-loaded modules to reduce initial app load while still utilizing events.
 
 ---
 
 ## 📝 FAQs
 
-### 1️⃣ What is a real-world use case for `@evently/react`?
+### 1️⃣ What is a real-world use case for `evently-react`?
 
 - **Cross-Component Communication**: Emit an event in one component and listen in another without prop drilling.
 - **Global Notifications**: Show toast notifications across your app.
 - **Dynamic Data Updates**: Trigger real-time UI updates based on backend events.
 
-### 2️⃣ Can I use `@evently/react` in non-React environments?
+### 2️⃣ Can I use `evently-react` in non-React environments?
 
 - **Yes!** You can use the exported `EventBus` class instance to integrate event-based communication in non-React environments. All methods like `emit`, `subscribe`, and middleware support are fully available.
 
