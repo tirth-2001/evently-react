@@ -6,7 +6,7 @@
 
 ![npm](https://img.shields.io/npm/v/evently-react?style=flat-square) ![typescript](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square)
 
-![Banner](.github/media/title_banner.png)
+![Banner](https://i.ibb.co/7KPsLmW/title-banner.png)
 
 ## 🎉 Overview
 
