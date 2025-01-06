@@ -44,11 +44,19 @@ export const ExampleComponent: FC = () => {
     emitEvent(eventName, { message: 'Hello, EventBus!' })
   }
 
+  const emitTimeEvent = (eventName = '') => {
+    if (!eventName) return
+    emitEvent(eventName, { time: new Date().toLocaleTimeString(), source: 'example-component' })
+  }
+
   return (
     <div>
       <button onClick={() => emitButtonEvent('my-event')}>Emit Event</button>
       <button onClick={() => emitButtonEvent('global-event')}>Global Event</button>
       <button onClick={() => emitButtonEvent('test-event')}>Priority Event</button>
+      <div style={{ marginTop: '1rem', display: 'block', background: 'aliceblue' }}>
+        <button onClick={() => emitTimeEvent('time-event')}>Send current time</button>
+      </div>
     </div>
   )
 }
