@@ -4,14 +4,14 @@ import { Events } from '../types'
 import { Logger } from '../utils'
 
 /**
- * useSubscribe hook to listen for specific events.
- * @param eventName The name of the event to subscribe to.
- * @param callback The callback function to handle the event.
+ * useSubscribe hook to listen for one or multiple events.
+ * @param eventNames The name(s) of the events to subscribe to.
+ * @param callback The callback function to handle the event(s).
  * @param priority The priority of the subscription.
  */
 export function useSubscribe<E extends keyof Events>(
-  eventName: E,
-  callback: (payload: Events[E]) => void,
+  eventNames: E | E[],
+  callback: (eventName: E, payload: Events[E]) => void,
   priority: number = 0,
 ): void {
   const eventBus = useContext(EventContext)
@@ -22,9 +22,11 @@ export function useSubscribe<E extends keyof Events>(
   }
 
   useEffect(() => {
-    if (!eventName || typeof eventName !== 'string') {
-      Logger.error('useSubscribe: Event name must be a non-empty string.')
-      throw new Error('useSubscribe: Event name must be a non-empty string.')
+    const eventArray = Array.isArray(eventNames) ? eventNames : [eventNames]
+
+    if (eventArray.some(event => !event || typeof event !== 'string')) {
+      Logger.error('useSubscribe: Event names must be non-empty strings.')
+      throw new Error('useSubscribe: Event names must be non-empty strings.')
     }
 
     if (typeof callback !== 'function') {
@@ -32,17 +34,23 @@ export function useSubscribe<E extends keyof Events>(
       throw new Error('useSubscribe: Callback must be a function.')
     }
 
-    try {
-      // Subscribe to the event
-      const unsubscribe = eventBus.subscribe(eventName, callback, priority)
+    const unsubscribes = eventArray.map(eventName => {
+      return eventBus.subscribe(
+        eventName,
+        payload => {
+          try {
+            callback(eventName, payload)
+          } catch (error) {
+            Logger.error(`Error in useSubscribe callback for event "${eventName}":`, error)
+          }
+        },
+        priority,
+      )
+    })
 
-      // Cleanup subscription on unmount
-      return () => {
-        unsubscribe()
-      }
-    } catch (error) {
-      Logger.error(`useSubscribe: Error subscribing to event "${eventName}":`, error)
-      throw error
+    // Cleanup all subscriptions on unmount
+    return () => {
+      unsubscribes.forEach(unsubscribe => unsubscribe())
     }
-  }, [eventName, callback, eventBus, priority])
+  }, [eventNames, callback, eventBus, priority])
 }
