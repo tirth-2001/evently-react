@@ -230,7 +230,7 @@ import React from 'react'
 import { useSubscribe } from 'evently-react'
 
 const MultiSubscribeExample: React.FC = () => {
-  useSubscribe(['eventOne', 'eventTwo'], (payload, eventName) => {
+  useSubscribe(['eventOne', 'eventTwo'], (eventName, payload) => {
     console.log(`Received payload for ${eventName}:`, payload)
   })
 
