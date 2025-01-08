@@ -291,6 +291,8 @@ eventBus.useForEvent('myEvent', (event, payload) => {
 })
 ```
 
+---
+
 ### In-Memory Caching 📦
 
 Late subscribers can still receive the latest events:
@@ -300,6 +302,8 @@ useSubscribe('exampleEvent', payload => {
   console.log('Late subscriber received:', payload) // Works even if the event was emitted earlier
 })
 ```
+
+---
 
 ### Priority-Based Subscription 🚦
 
@@ -311,6 +315,55 @@ useSubscribe('important-event', payload => console.log('High priority'), 3)
 ```
 
 Handlers are executed in descending order of priority, making it easy to manage complex event flows.
+
+---
+
+### Accessing EventBus Instance 🚌
+
+The `eventBus` instance, accessible via the `useEvent` hook, allows integration of `evently-react` into non-Component environments such as utility functions or external libraries. This enables advanced use cases like chaining events, transforming payloads, or other customized workflows.
+
+#### Example: Using EventBus in Utility Functions
+
+The following example demonstrates how to pass the `eventBus` instance to a utility function for chaining events:
+
+```tsx
+// Component file
+import { useEvent } from 'evently-react'
+import { handleEventChain } from './utils'
+
+const Component = () => {
+  const { eventBus } = useEvent()
+
+  // Pass the eventBus instance to utility functions
+  handleEventChain('logoutUser', eventBus)
+
+  return <div>Event Handling Component</div>
+}
+
+// utils.ts
+import { EventBus } from 'evently-react'
+
+export function handleEventChain(eventName: string, eventBus: EventBus) {
+  eventBus.subscribe(eventName, payload => {
+    if (payload.action === 'logout') {
+      console.log('Logging out user...')
+
+      // Emitting new event based on received payload
+      eventBus.emit('resetPreferences', { message: 'Resetting preferences...' })
+    }
+  })
+}
+```
+
+#### Use Cases:
+
+- **Chaining Events:** Trigger subsequent events based on specific payload conditions.
+- **Transforming Payloads:** Modify or enrich event data before emission using middlewares.
+- **Non-Component Interactions:** Handle events in service layers, utility files, or middleware systems.
+
+**Tip:** If the use case is completely non-React, consider using the `EventBus` class directly. Instead of using hooks, you can create an instance of `EventBus` and leverage its methods for event management.
+
+This feature extends the power of evently-react beyond React components, enabling seamless integration in diverse workflows. 🚀
 
 ---
 
