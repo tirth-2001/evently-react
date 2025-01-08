@@ -91,7 +91,7 @@ const Publisher: React.FC = () => {
 
 // Define a subscriber component
 const Subscriber: React.FC = () => {
-  useSubscribe('greet', payload => {
+  useSubscribe('greet', (eventName, payload) => {
     console.log(payload.message) // Log the event payload
   })
 
@@ -125,10 +125,10 @@ Emit an event in one component and listen to it in another—no need for prop dr
 
 ```tsx
 // In Header component
-emitEvent('toggleSidebar', true)
+emitEvent('toggleSidebar', { isVisible: true })
 
 // In Sidebar component
-useSubscribe('toggleSidebar', isVisible => setSidebarVisible(isVisible))
+useSubscribe('toggleSidebar', (eventName, payload) => setSidebarVisible(payload.isVisible))
 ```
 
 ### 2️⃣ **Global Notifications**
@@ -156,7 +156,7 @@ Trigger UI updates in real-time when backend events or user actions occur.
 emitEvent('updateMetrics', newMetrics)
 
 // Dashboard listens to updates
-useSubscribe('updateMetrics', metrics => updateChart(metrics))
+useSubscribe('updateMetrics', (eventName, metrics) => updateChart(metrics))
 ```
 
 ### 4️⃣ **Hybrid State/Event Management**
@@ -172,7 +172,7 @@ Combine event-driven architecture with existing state management tools (e.g., Re
 emitEvent('resetForm')
 
 // Form component subscribes to reset action
-useSubscribe('resetForm', () => setFormData(initialValues))
+useSubscribe('resetForm', (eventName, payload) => setFormData(initialValues))
 ```
 
 By adopting `evently-react`, you can create scalable, decoupled, and maintainable solutions for modern web applications. 🎯
@@ -211,7 +211,7 @@ import React from 'react'
 import { useSubscribe } from 'evently-react'
 
 const SubscribeExample: React.FC = () => {
-  useSubscribe('exampleEvent', payload => {
+  useSubscribe('exampleEvent', (eventName, payload) => {
     console.log('Received payload:', payload) // Logs: { message: 'Hello, Evently!' }
   })
 
@@ -298,7 +298,7 @@ eventBus.useForEvent('myEvent', (event, payload) => {
 Late subscribers can still receive the latest events:
 
 ```tsx
-useSubscribe('exampleEvent', payload => {
+useSubscribe('exampleEvent', (eventName, payload) => {
   console.log('Late subscriber received:', payload) // Works even if the event was emitted earlier
 })
 ```
@@ -310,8 +310,11 @@ useSubscribe('exampleEvent', payload => {
 Control the execution order of event handlers by assigning priorities. Higher priority callbacks execute first (default is `0`).
 
 ```tsx
-useSubscribe('important-event', payload => console.log('Low priority'), 1)
-useSubscribe('important-event', payload => console.log('High priority'), 3)
+// Low priority handler.
+useSubscribe('important-event', (eventName, payload) => console.log('Low priority'), 1)
+
+// High priority handler.
+useSubscribe('important-event', (eventName, payload) => console.log('High priority'), 3)
 ```
 
 Handlers are executed in descending order of priority, making it easy to manage complex event flows.
