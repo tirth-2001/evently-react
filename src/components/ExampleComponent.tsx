@@ -1,8 +1,11 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useEvent, useSubscribe } from '../hooks'
+import { emitExternalEvent, subscribeExternalEvent, transformTimeEvent } from '../utils/transform'
 
 export const ExampleComponent: FC = () => {
-  const { emitEvent } = useEvent()
+  const { emitEvent, eventBus } = useEvent()
+
+  const [externalPayload, setExternalPayload] = useState<any>({})
 
   // High-priority subscriber
   useSubscribe(
@@ -53,13 +56,27 @@ export const ExampleComponent: FC = () => {
     emitEvent(eventName, { time: new Date().toLocaleTimeString(), source: 'example-component' })
   }
 
+  useEffect(() => {
+    subscribeExternalEvent('external-event', payload => {
+      setExternalPayload(payload)
+    })
+  }, [])
+
   return (
     <div>
       <button onClick={() => emitButtonEvent('my-event')}>Emit Event</button>
       <button onClick={() => emitButtonEvent('global-event')}>Global Event</button>
       <button onClick={() => emitButtonEvent('test-event')}>Priority Event</button>
-      <div style={{ marginTop: '1rem', display: 'block', background: 'aliceblue' }}>
+      <div style={{ marginTop: '1rem', display: 'block', background: 'yellow' }}>
+        <button onClick={() => transformTimeEvent('time-event', eventBus)}>Add middleware to time event</button>
         <button onClick={() => emitTimeEvent('time-event')}>Send current time</button>
+      </div>
+      <div style={{ marginBlock: '2rem', display: 'block', background: 'red' }}>
+        <h4>External Emit Subscribe check</h4>
+        <button onClick={() => emitExternalEvent('external-event', { isExternal: true, source: 'react component' })}>
+          External non react external emit
+        </button>
+        <span>Subscribed payload : {JSON.stringify(externalPayload)}</span>
       </div>
     </div>
   )
