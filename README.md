@@ -434,6 +434,6 @@ declare module 'evently-react' {
 
 Having issues or have a suggestion?
 
-- 🐛 [Report a Bug](https://github.com/tirth-2001/evently-react/issues/new?template=bug_report.md)
-- 💡 [Request a Feature](https://github.com/tirth-2001/evently-react/issues/new?template=feature_request.md)
+- 🐞 [Report a Bug](https://github.com/tirth-2001/evently-react/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=%5BBug%5D+)
+- 💡 [Request a Feature](https://github.com/tirth-2001/evently-react/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=%5BFeature%5D+)
 - 📚 [Join the Discussion](https://github.com/tirth-2001/evently-react/discussions)
