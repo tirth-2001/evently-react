@@ -29,6 +29,7 @@
    - [Middlewares](#middlewares-)
    - [In-Memory Caching](#in-memory-caching-)
    - [Priority-Based Subscription](#priority-based-subscription-)
+   - [Accessing EventBus Instance](#accessing-eventbus-instance-)
 7. [🔄 Comparison with Redux and Prop Drilling](#-comparison-with-redux-and-prop-drilling)
 8. [💡 Tips](#-tips)
 9. [📝 FAQs](#-faqs)
