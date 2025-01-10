@@ -2,7 +2,7 @@
   "name": "evently-react",
   "description": "A Hook-Based Framework for Event-Driven React Apps",
   "private": false,
-  "version": "0.0.8",
+  "version": "1.0.0",
   "main": "./build/esm/index.js",
   "module": "./build/esm/index.js",
   "types": "./build/esm/index.d.ts",
