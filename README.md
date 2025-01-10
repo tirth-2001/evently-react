@@ -373,13 +373,13 @@ This feature extends the power of evently-react beyond React components, enablin
 
 ## 🔄 Comparison with Redux and Prop Drilling
 
-| Feature                                 | Redux Equivalent | evently-react Alternative |
-| --------------------------------------- | ---------------- | ------------------------- |
-| Dispatch actions                        | `dispatch`       | `emitEvent`               |
-| Select state                            | `useSelector`    | `useSubscribeState`       |
-| Handle side effects                     | `thunks/sagas`   | Middleware                |
-| Centralized store & reducer boilerplate | Required         | Not Required              |
-| Prop drilling issues                    | Problematic      | Eliminated                |
+| Feature                                 | Redux Equivalent | evently-react Alternative          |
+| --------------------------------------- | ---------------- | ---------------------------------- |
+| Dispatch actions                        | `dispatch`       | `emitEvent`                        |
+| Select state                            | `useSelector`    | `useSubscribeState`                |
+| Middleware/Event Processing             | `thunks/sagas`   | Global & Event-specific Middleware |
+| Centralized store & reducer boilerplate | Required         | Not Required                       |
+| Prop drilling                           | Problematic      | Eliminated                         |
 
 Inject `evently-react` seamlessly into existing projects and reduce boilerplate while maintaining scalability.
 
@@ -422,11 +422,15 @@ declare module 'evently-react' {
 
 ### 3️⃣ Can I use `evently-react` in non-React environments?
 
-- **Yes!** You can use the exported `EventBus` class instance to integrate event-based communication in non-React environments. All methods like `emit`, `subscribe`, and middleware support are fully available.
+- **Yes!** You can use the exported `EventBus` class instance to integrate event-based communication in non-React environments. (Example: Vanilla JS, Angular and other frameworks) All methods like `emit`, `subscribe`, and middleware support are fully available.
 
 ### 4️⃣ How to subscribe multiple events in one component?
 
-- Simply call `useSubscribe` and give array of event names as parameter. It will listen to all the events in the array.
+- Simply call `useSubscribe` and give array of event names as parameter. It will listen to all the events provided in the array.
+
+### 5️⃣ Is there a plan to support other frameworks?
+
+- Yes, there are plans to release individual packages for other frameworks in the future.
 
 ---
 
