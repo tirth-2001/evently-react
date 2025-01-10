@@ -1,12 +1,16 @@
 <div align="center">
 
-# evently-react
+<h1> evently-react </h1>
+
+<h3> A Hook-Based Framework for Event-Driven React Apps </h3>
+
+![Banner](https://i.ibb.co/7KPsLmW/title-banner.png)
 
 </div>
 
-![npm](https://img.shields.io/npm/v/evently-react?style=flat-square) ![typescript](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square)
-
-![Banner](https://i.ibb.co/7KPsLmW/title-banner.png)
+![npm](https://img.shields.io/npm/v/evently-react?style=flat-square)
+![Downloads](https://img.shields.io/npm/dt/evently-react?style=flat-square)
+![typescript](https://img.shields.io/badge/TypeScript-Supported-blue?style=flat-square)
 
 ## 📜 Table of Contents
 
