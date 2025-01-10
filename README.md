@@ -4,6 +4,8 @@
 
 <h3> A Hook-Based Framework for Event-Driven React Apps </h3>
 
+<br />
+
 ![Banner](https://i.ibb.co/7KPsLmW/title-banner.png)
 
 </div>
@@ -49,7 +51,7 @@ Whether you're building a small app or a large-scale application, this package o
 
 With its **hooks-based API**, `evently-react` enables seamless event handling while keeping your codebase clean and maintainable.
 
-Say goodbye to prop drilling and global state chaos and hello to elegant, event-driven designs! 🎯
+Say goodbye to prop drilling & global state chaos and hello to elegant, event-driven designs! 🎯
 
 ---
 
